@@ -1,0 +1,57 @@
+version: '3.1'
+services:
+    application:
+      container_name: stars-application
+      image: waycambas/star-ecosystem
+      volumes:
+        - ./etc/supervisor/supervisord.conf:/etc/supervisord.conf
+        - ./etc/supervisor/conf.d:/etc/supervisord.d
+        - ./data/logs:/var/log/supervisor
+        - ./app:/usr/share/app
+        - ./etc/nginx/conf.d:/etc/nginx/conf.d
+        - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+      ports:
+          - "${APP_PORT}:80"
+          - "9001:9001"
+          - "443:443"
+      hostname: stars-ecosystem
+      links:
+          - mariadb
+          - mongodb
+      depends_on:
+          - mariadb
+          - mongodb
+      networks: [
+        stars-application
+      ]
+    
+    mariadb:
+      container_name: mariadb-stars-application
+      image: mariadb:10.3
+      env_file:
+          - ./environments/.env
+      restart: always
+      networks:
+          - stars-application
+      ports:
+          - "${MARIADB_PORT}:3306"
+      volumes:
+          - ./data/mariadb:/var/lib/mysql
+          - ./etc/my.cnf.d:/etc/mysql/conf.d
+
+    mongodb:
+        container_name: mongodb-stars-application
+        image: bitnami/mongodb:4.2
+        env_file:
+            - ./environments/.env
+        restart: always
+        networks:
+            - stars-application
+        ports:
+            - "${MONGODB_PORT}:27017"
+        volumes:
+            - mongo-data:/bitnami/mongodb
+networks:
+    stars-application: {}   
+volumes:
+    mongo-data:         
