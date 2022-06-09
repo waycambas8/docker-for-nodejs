@@ -2,9 +2,9 @@
 
 Include : 
 
-MongoDB
-MariaDB
-Express generator
+- MongoDB
+- MariaDB
+- Express generator
 
 ### HOW TO INSTALL
 
