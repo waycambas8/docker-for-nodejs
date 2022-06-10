@@ -21,7 +21,7 @@ RUN node --version
 RUN npm --version
 
 # Install NGINX and SUPERVISORD
-RUN yum -y install nginx supervisor 
+RUN yum -y install nginx supervisor git
 
 # Give permission to run.sh
 RUN chmod +x /app/run.sh
