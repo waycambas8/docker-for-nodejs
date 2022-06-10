@@ -5,7 +5,7 @@ mkdir app
 cd app
 
 username=${GIT_USERNAME:=""}
-password=${GIT_PASSWORD:=""}
+password=${GIT_TOKEN:=""}
 
 if [ ! "$password" ]; then
     git clone https://github.com/waycambas8/dashboard-node.git stars
